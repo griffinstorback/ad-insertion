@@ -1,0 +1,25 @@
+version: '3'
+services:
+  web:
+    build: .
+    command: "python src/server.py"
+    ports:
+    - 5000-5100:5000
+    volumes:
+    - .:/app
+    depends_on:
+    - db
+  db:
+    image: postgres:alpine
+    env_file: database.conf
+    ports:
+    - 5432-5532:5432
+    volumes:
+    - db_volume:/var/lib/postgresql
+  redis:
+    image: redis:alpine
+    ports:
+    - 6379-6479:6379
+
+volumes:
+  db_volume:

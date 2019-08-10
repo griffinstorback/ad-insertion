@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <title>Ad Fetch Page</title>
+        <link rel="stylesheet" href="/app/src/static/styles.css">
+    </head>
+    <body>
+        <div style="width:100%; height:175px; background:yellow;">
+                <h2>Ad: {{ ad.brand }}</h2>
+                <p>Target gender: {{ ad.target_gender }}</p>
+                <p>Target age: {{ ad.age_lower_bound }} {% if ad.age_upper_bound == 0 %} + {% else %} - {{ ad.age_upper_bound }} {% endif %}</p>
+                <p>Target salary: {{ ad.salary_lower_bound }} {% if ad.salary_upper_bound == 0 %} + {% else %} - {{ ad.salary_upper_bound }} {% endif %}</p>
+                <p>{{ ad.ad }}</p>
+        </div>
+        <h1>
+            Welcome to a webpage with an ad! The ad has rating {{ rating }}/3 for the current user.
+        </h1>
+        <p>
+            The yellow box at the top of the page contains the ad. The ad is selected for the user based on<br>
+            three attributes: gender, age, and salary. In a real system used for commercial purposes, many more<br>
+            attributes would be tracked; these three are simply the easiest understand.
+        </p>
+        <p>
+            The database in use consists of two tables: users and ads. There are 400 users and 20 ads. I found<br>
+            the table of users on kaggle (https://www.kaggle.com/rakeshrau/social-network-ads), and created the ads<br>
+            myself.
+        </p>
+        <p>
+            The fatigue of each ad with respect to each user (how likely the user is to dismiss the ad because it's<br>
+            been seen before) is tracked with Redis. In this application, only the last seen ad is tracked for each<br>
+            user, so loading the page as particular user, the user will not receive the same ad twice in a row.<br>
+            In a real system used for commercial purposes, each user should be associated with a list (or some other<br>
+            structure like a set) of events, rather than just the one.
+        </p>
+        <div id="user-info" style="width:20%; height:200px; background:lightgrey;">
+            <h2>User</h2>
+            <p>ID: {{ user.user_id }}</p>
+            <p>gender: {{ user.gender }}</p>
+            <p>age: {{ user.age }}</p>
+            <p>estimated salary: {{ user.estimated_salary }}</p>
+        </div>
+        <h3>Retain user info and reload</h3>
+        <p>
+            To retain the user and only reload the ad at the top of the page, append the user's userid to the URL, for<br>
+            example http://.../15800215 would reload the page with a new ad, but would retain the user info associated with<br>
+            the userid 15820015.
+        </p>
+    </body>
+</html>
